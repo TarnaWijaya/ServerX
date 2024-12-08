@@ -1,0 +1,111 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <link rel="icon" href="assets/icon.png" type="image/png">
+  <title>
+   Community ServerX
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+ </head>
+ <body class="bg-gray-900 text-white h-screen flex flex-col justify-between">
+  <!-- Header -->
+  <div class="flex items-center justify-between bg-gray-800 p-4 relative">
+   <div class="flex items-center">
+    <img alt="Profile picture" class="rounded-full w-10 h-10" height="40"
+    src="assets/icon.png" width="40"/>
+    <span class="ml-4 text-lg">
+     Community ServerX
+    </span>
+   </div>
+   <div class="flex space-x-4 relative">
+    <div class="relative">
+     <i class="fas fa-ellipsis-v text-xl cursor-pointer" id="dropdownMenuButton">
+     </i>
+     <div class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg z-10" id="dropdownMenu">
+      <a class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700" href="#">
+       Akun
+      </a>
+      <a class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700" href="#">
+       Pengaturan
+      </a>
+      <a class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700" href="#">
+       Pusat Bantuan
+      </a>
+     </div>
+    </div>
+   </div>
+  </div>
+  <!-- Date Divider -->
+  <div class="flex justify-center my-4">
+   <span class="bg-gray-700 text-sm py-1 px-3 rounded-full">
+    Hari ini
+   </span>
+  </div>
+  <!-- Encryption Notice -->
+  <div class="flex justify-center px-4">
+   <div class="bg-yellow-600 text-sm p-2 rounded-lg text-center">
+    <i class="fas fa-lock">
+    </i>
+    <span class="ml-2">
+     Pesan dan panggilan dienkripsi secara end-to-end. Tidak seorang pun di luar chat ini, termasuk WhatsApp, yang dapat membaca atau mendengarkannya. Ketuk untuk info selengkapnya.
+    </span>
+   </div>
+  </div>
+  <!-- Chat Messages -->
+  <div class="flex flex-col flex-grow p-4 space-y-4 overflow-y-auto" id="chat-container">
+  </div>
+  <!-- Input Area -->
+  <div class="flex items-center bg-gray-800 p-4">
+   <input class="flex-grow bg-gray-700 text-white p-2 rounded-lg focus:outline-none" id="message-input" placeholder="Pesan" type="text"/>
+   <input class="flex-grow bg-gray-700 text-white p-2 rounded-lg focus:outline-none ml-4" id="user-input" placeholder="Nama Pengguna" type="text"/>
+   <button class="ml-4 bg-green-600 text-white p-2 rounded-lg" id="send-button">
+    Kirim
+   </button>
+  </div>
+  <script>
+   document.getElementById('send-button').addEventListener('click', function() {
+            const messageInput = document.getElementById('message-input');
+            const userInput = document.getElementById('user-input');
+            const messageText = messageInput.value.trim();
+            const userText = userInput.value.trim();
+            if (messageText !== '' && userText !== '') {
+                const chatContainer = document.getElementById('chat-container');
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('flex', 'justify-end', 'flex-col', 'items-end');
+                messageElement.innerHTML = `
+                    <div class="text-xs text-gray-400 mb-1">User: ${userText}</div>
+                    <div class="bg-green-600 text-sm p-2 rounded-lg max-w-xs">
+                        <span>${messageText}</span>
+                        <span class="block text-right text-xs text-gray-200 mt-1">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                    </div>
+                `;
+                chatContainer.appendChild(messageElement);
+                messageInput.value = '';
+                messageInput.disabled = true;
+                setTimeout(() => {
+                    messageInput.disabled = false;
+                }, 1000);
+                if (!userInput.disabled) {
+                    userInput.disabled = true;
+                }
+            }
+        });
+
+        document.getElementById('dropdownMenuButton').addEventListener('click', function() {
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            dropdownMenu.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', function(event) {
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const dropdownMenuButton = document.getElementById('dropdownMenuButton');
+            if (!dropdownMenu.contains(event.target) && !dropdownMenuButton.contains(event.target)) {
+                dropdownMenu.classList.add('hidden');
+            }
+        });
+  </script>
+ </body>
+</html>
